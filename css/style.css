@@ -43,6 +43,9 @@ button:hover {
 }
 
 #notification {
+    position: absolute;
+    right: 5px;
+    width: 25%;
     padding: .75rem 1.25rem;
     margin-bottom: 1rem;
     border: 1px solid transparent;

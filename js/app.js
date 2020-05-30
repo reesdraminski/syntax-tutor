@@ -1,3 +1,4 @@
+// create a CodeMirror editor that will be used by the user to make syntax corrections
 const editor = CodeMirror(document.getElementById("editor"), {
     mode: { name: "javascript" },
     lineNumbers: true,
@@ -6,6 +7,7 @@ const editor = CodeMirror(document.getElementById("editor"), {
     lineWrapping: true
 });
 
+// initialize the prompt UI
 let promptText = generateProblem();
 setPrompt(promptText);
 
@@ -128,11 +130,12 @@ function answerPrompt(response) {
             // TODO should the editor auto-populate or does that take away typing practice?
             document.getElementById("makeCorrections").style.display = "";
             editor.refresh();
+            editor.focus();
         }
     }
 
-    // hide the notification alert after 1.5 seconds
-    setTimeout(() => notif.style.display = "none", 1500);
+    // hide the notification alert after 1 second
+    setTimeout(() => notif.style.display = "none", 1000);
 }
 
 /**
@@ -163,11 +166,11 @@ function correctPrompt() {
         notif.className = "failure";
     }
 
-    // hide the notification alert after 1.5 seconds
-    setTimeout(() => notif.style.display = "none", 1500);
+    // hide the notification alert after 1 second
+    setTimeout(() => notif.style.display = "none", 1000);
 }
 
-// bind onclick functions to the response buttons
+// bind onclick functions to the buttons
 document.getElementById("correct").onclick = () => answerPrompt("correct");
 document.getElementById("incorrect").onclick = () => answerPrompt("incorrect");
-document.getElementById("submit").onclick = () => correctPrompt();
+document.getElementById("submit").onclick = correctPrompt;
