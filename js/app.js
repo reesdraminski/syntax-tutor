@@ -156,7 +156,7 @@ function generateProblem() {
         const variants = [
             `if ${selectRandom(openings)}true${selectRandom(closings)} {\n\tconsole.log("${getRandomText()}");\n}`,
             `function myFunction() ${selectRandom(openings)}\n\tconsole.log("${getRandomText()}");\n${selectRandom(closings)}`,
-            `let arr = ${selectRandom(["{", "["])}1, 2, 3, 4, 5${selectRandom(["}", "]"])}`
+            `let arr = ${selectRandom(["{", "["])}1, 2, 3, 4, 5${selectRandom(["}", "]"])};`
         ];
 
         problemText = selectRandom(variants);

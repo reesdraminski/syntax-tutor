@@ -3,6 +3,7 @@ body {
     display: flex;
     flex-direction: column;
     margin: 0;
+    height: 100%;
 }
 
 section {
@@ -33,6 +34,13 @@ footer {
     border-radius: .25rem;
     padding: 1rem;
     width: 50%;
+    white-space: pre-wrap;
+}
+
+@media only screen and (max-width: 768px) {
+    #example {
+        width: 90%;
+    }
 }
 
 button {
