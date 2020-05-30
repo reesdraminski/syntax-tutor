@@ -8,12 +8,22 @@
     </head>
 
     <body>
-        <pre id="code_prompt"></pre>
+        <div class="container">
+            <pre id="example"></pre>
+
+            <h2 id="prompt">Is this correct syntax?</h2>
+            <button id="correct">Yes</button>
+            <button id="incorrect">No</button>
+
+            <div id="editor" style="display: none;"></div>
+        </div>
 
         <script src="codemirror/codemirror.js"></script>
 
         <script src="codemirror/addon/runmode/runmode.js"></script>
         <script src="codemirror/mode/javascript/javascript.js"></script>
+
+        <script src="https://unpkg.com/esprima@4.0.1/dist/esprima.js"></script>
 
         <script src="js/app.js"></script>
     </body>

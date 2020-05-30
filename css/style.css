@@ -1,5 +1,36 @@
-pre {
+body {
+    font-family: sans-serif;
+}
+
+#example {
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
     padding: 1rem;
+    width: 50%;
+}
+
+button {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    padding: .5rem 1rem;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+button:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.container {
+    padding-right: 2rem;
+    padding-left: 2rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#editor {
+    margin-top: 1rem;
 }
