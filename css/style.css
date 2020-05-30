@@ -74,4 +74,5 @@ button:hover {
 #editor {
     margin-top: 1rem;
     margin-bottom: .5rem;
+    border: 1px solid #eeeeee;
 }

@@ -54,11 +54,19 @@ function checkCode(code) {
 }
 
 /**
+ * Get random string of text.
+ * @returns {String} text
+ */
+function getRandomText() {
+    return Math.random().toString(36).replace(/[^a-z]+/g, '');
+}
+
+/**
 * Generate a code example to display to the user as a syntax problem.
 * @returns {String} problemText
 */
 function generateProblem() {
-    const problemTypes = ["forLoop", "stringClosure"];
+    const problemTypes = ["forLoop", "stringQuoteMismatch", "closureMismatch", "equalityOperator"];
 
     let problemType = selectRandom(problemTypes);
     let problemText;
@@ -77,12 +85,29 @@ function generateProblem() {
             problemText = "for (let x = 0; x < 5; x++) {\n\n}";
         }
     }
-    else if (problemType == "stringClosure") {
+    else if (problemType == "stringQuoteMismatch") {
         const firstQuote  = Math.round(Math.random()) ? "\"" : "'";
         const secondQuote = Math.round(Math.random()) ? "\"" : "'";
-        const text = Math.random().toString(36).replace(/[^a-z]+/g, '');
+        const text = getRandomText();
 
         problemText = `${firstQuote}${text}${secondQuote}`;
+    }
+    else if (problemType == "closureMismatch") {
+        const openings = ["{", "(", "["];
+        const closings = ["}", ")", "]"];
+
+        const variants = [
+            `if ${selectRandom(openings)}true${selectRandom(closings)} {\n\tconsole.log("${getRandomText()}");\n}`,
+            `function() ${selectRandom(openings)}\n\tconsole.log("${getRandomText()}");\n${selectRandom(closings)}`,
+            `let arr = ${selectRandom(["{", "["])}1, 2, 3, 4, 5${selectRandom(["}", "]"])}`
+        ];
+
+        problemText = selectRandom(variants);
+    }
+    else if (problemType == "equalityOperator") {
+        const operator = Math.round(Math.random()) ? "=" : "==";
+
+        problemText = `if (1 ${operator} 2) {\n\tconsole.log("${getRandomText()}");\n}`;
     }
 
     return problemText;
