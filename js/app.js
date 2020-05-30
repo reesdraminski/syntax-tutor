@@ -7,6 +7,8 @@ const editor = CodeMirror(document.getElementById("editor"), {
     lineWrapping: true
 });
 
+let score = 0;
+
 // initialize the prompt UI
 let promptText = generateProblem();
 setPrompt(promptText);
@@ -114,6 +116,18 @@ function generateProblem() {
 }
 
 /**
+ * Change the score UI element.
+ * @param {Number} delta 
+ */
+function setScore(delta) {
+    // change score by delta value
+    score += delta;
+
+    // update score UI element
+    document.getElementById("score").innerText = "Score: " + score;
+}
+
+/**
  * Check the user's answer.
  * @param {String} response 
  */
@@ -132,11 +146,17 @@ function answerPrompt(response) {
             // generate a new problem
             promptText = generateProblem();
             setPrompt(promptText);
+
+            // add ten to score for correct answer
+            setScore(10);
         }
         else {
             // give the user feedback that they're wrong
             notif.innerHTML = "That's wrong.";
             notif.className = "failure";
+
+            // take away five points for incorrect answer
+            setScore(-5);
         }
     }
     // if the problem syntax is incorrect
@@ -145,17 +165,26 @@ function answerPrompt(response) {
             // give the user feedback that they're wrong
             notif.innerHTML = "That's wrong.";
             notif.className = "failure";
+
+            // take away five points for incorrect answer
+            setScore(-5);
         }
         else {
             // give the user feedback that they're right
             notif.innerHTML = "That's right!";
             notif.className = "success";
 
-            // show the editor to allow the user to correct the syntax
-            // TODO should the editor auto-populate or does that take away typing practice?
+            // show the editor and focus on it
             document.getElementById("makeCorrections").style.display = "";
             editor.refresh();
             editor.focus();
+
+            // set the value to current prompt text and go to end of line
+            editor.setValue(promptText);
+            editor.setCursor(editor.lineCount(), 0);
+
+            // give five points for correct identification of improper syntax
+            setScore(5);
         }
     }
 
@@ -172,7 +201,7 @@ function correctPrompt() {
     notif.style.display = "";
 
     // if the user types in syntatically correct code
-    // TODO this is just checks if it is syntactically correct, not that it is the right code
+    // this is just checks if it is syntactically correct, not that it is the right code
     if (checkCode(editor.getValue())) {
         // give the user feedback that they're right
         notif.innerHTML = "That's right!";
@@ -184,11 +213,17 @@ function correctPrompt() {
         // generate a new problem
         promptText = generateProblem();
         setPrompt(promptText);
+
+        // add ten to score for correct answer
+        setScore(10);
     }
     else {
         // give the user feedback that they're wrong
         notif.innerHTML = "That's wrong.";
         notif.className = "failure";
+
+        // take away five points for incorrect answer
+        setScore(-5);
     }
 
     // hide the notification alert after 1 second
