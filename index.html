@@ -8,30 +8,38 @@
     </head>
 
     <body>
-        <div id="notification" style="display: none;"></div>
+        <section>
+            <div id="notification" style="display: none;"></div>
 
-        <div class="container">
-            <div style="text-align: center;">
-                <h1 style="margin-bottom: 0;">Syntax Tutor</h1>
-                <p id="score">
-                    Score: 0
-                </p>
+            <div class="container">
+                <div style="text-align: center;">
+                    <h1 style="margin-bottom: 0;">Syntax Tutor</h1>
+                    <p id="score">
+                        Score: 0
+                    </p>
+                </div>
+
+                <pre id="example"></pre>
+
+                <h2 id="prompt">Is this correct syntax?</h2>
+                <button id="correct">Yes</button>
+                <button id="incorrect">No</button>
+
+                <div id="makeCorrections" style="display: none;">
+                    <h3>How could you correct the syntax?</h3>
+
+                    <div id="editor"></div>
+
+                    <button id="submit">Submit</button>
+                </div>
             </div>
+        </section>
 
-            <pre id="example"></pre>
+        <footer>
+            <span style="margin-left: 5px; font-weight: bold;">Customize Problem Types:</span>
 
-            <h2 id="prompt">Is this correct syntax?</h2>
-            <button id="correct">Yes</button>
-            <button id="incorrect">No</button>
-
-            <div id="makeCorrections" style="display: none;">
-                <h3>How could you correct the syntax?</h3>
-
-                <div id="editor"></div>
-
-                <button id="submit">Submit</button>
-            </div>
-        </div>
+            <ul id="problemTypes"></ul>
+        </footer>
 
         <script src="codemirror/codemirror.js"></script>
 

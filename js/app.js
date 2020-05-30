@@ -1,3 +1,6 @@
+// a list of all possible problem types
+const ALL_PROBLEM_TYPES = ["forLoop", "stringQuoteMismatch", "closureMismatch", "equalityOperator"];
+
 // create a CodeMirror editor that will be used by the user to make syntax corrections
 const editor = CodeMirror(document.getElementById("editor"), {
     mode: { name: "javascript" },
@@ -7,11 +10,65 @@ const editor = CodeMirror(document.getElementById("editor"), {
     lineWrapping: true
 });
 
+// globals
 let score = 0;
-
-// initialize the prompt UI
+let selectedProblemTypes = ["forLoop", "stringQuoteMismatch", "closureMismatch", "equalityOperator"];
 let promptText = generateProblem();
+
+// initialize UI components
 setPrompt(promptText);
+createProblemTypeCheckboxes();
+
+/**
+ * Create the problem type checkboxes that allow users to customize what types of problems they
+ * get to practice.
+ */
+function createProblemTypeCheckboxes() {
+    // create checkboxes for the user to be able to customize problem types that they practice
+    ALL_PROBLEM_TYPES.forEach(problemType => {
+        // create list item element
+        const li = document.createElement("li");
+
+        // create a checkbox element
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = problemType;
+        input.name = problemType;
+        input.value = problemType;
+        input.checked = true;
+
+        // define click action to add/remove problem type from selected problem types
+        input.onclick = () => {
+            // get the value of the input element
+            const val = input.value;
+
+            // if the input is checked, add to list of selected problem types
+            if (input.checked) {
+                selectedProblemTypes.push(val);
+            }
+            // if input is unchecked, remove it from the list of selected problem types
+            else {
+                selectedProblemTypes.splice(selectedProblemTypes.indexOf(val), 1);
+            }
+
+            // update prompt
+            promptText = generateProblem();
+            setPrompt(promptText);
+        }
+
+        // create label for checkbox input
+        const label = document.createElement("label");
+        label.htmlFor = problemType;
+        label.innerText = problemType;
+
+        // add checkbox and label to list item
+        li.appendChild(input);
+        li.appendChild(label);
+
+        // add list item to the problem types list element
+        document.getElementById("problemTypes").appendChild(li);
+    });
+}
 
 /**
  * Set the contents of the code prompt view to formatted code text.
@@ -68,9 +125,7 @@ function getRandomText() {
 * @returns {String} problemText
 */
 function generateProblem() {
-    const problemTypes = ["forLoop", "stringQuoteMismatch", "closureMismatch", "equalityOperator"];
-
-    let problemType = selectRandom(problemTypes);
+    let problemType = selectRandom(selectedProblemTypes);
     let problemText;
 
     if (problemType == "forLoop") {

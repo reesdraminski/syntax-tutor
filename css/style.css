@@ -1,5 +1,31 @@
 body {
     font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+section {
+    flex: 1 0 auto;
+}
+
+ul {
+    padding-left: 5px;
+    list-style: none;
+}
+
+ul li {
+    display: inline;
+    margin-right: 5px;
+}
+
+footer {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
+    background-color: #eeeeee;
 }
 
 #example {
