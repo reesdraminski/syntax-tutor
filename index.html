@@ -9,13 +9,21 @@
 
     <body>
         <div class="container">
+            <div id="notification" style="display: none;"></div>
+
             <pre id="example"></pre>
 
             <h2 id="prompt">Is this correct syntax?</h2>
             <button id="correct">Yes</button>
             <button id="incorrect">No</button>
 
-            <div id="editor" style="display: none;"></div>
+            <div id="makeCorrections" style="display: none;">
+                <h3>How could you correct the syntax?</h3>
+
+                <div id="editor"></div>
+
+                <button id="submit">Submit</button>
+            </div>
         </div>
 
         <script src="codemirror/codemirror.js"></script>

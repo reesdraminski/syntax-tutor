@@ -6,11 +6,14 @@ const editor = CodeMirror(document.getElementById("editor"), {
     lineWrapping: true
 });
 
+let promptText = generateProblem();
+setPrompt(promptText);
+
 /**
  * Set the contents of the code prompt view to formatted code text.
  * @param {String} code 
  */
-function setPromptCode(code) {
+function setPrompt(code) {
     const exampleEl = document.getElementById("example");
 
     // clear out anything that could still be in the code prompt element
@@ -49,36 +52,9 @@ function checkCode(code) {
 }
 
 /**
- * Check the user's answer.
- * @param {String} promptText 
- * @param {String} response 
- */
-function answerPrompt(promptText, response) {
-    // if the code syntax is correct
-    if (checkCode(promptText)) {
-        if (response == "correct") {
-            console.log("You right.");
-        }
-        else {
-            console.log("You wrong.");
-        }
-    }
-    // if the problem syntax is incorrect
-    else {
-        if (response == "correct") {
-            console.log("You wrong.");
-        }
-        else {
-            document.getElementById("editor").style.display = "";
-            editor.refresh();
-        }
-    }
-}
-
-/**
- * Generate a code example to display to the user as a syntax problem.
- * @returns {String} problemText
- */
+* Generate a code example to display to the user as a syntax problem.
+* @returns {String} problemText
+*/
 function generateProblem() {
     const problemTypes = ["forLoop", "stringClosure"];
 
@@ -111,21 +87,87 @@ function generateProblem() {
 }
 
 /**
- * Initialize the UI components.
+ * Check the user's answer.
+ * @param {String} response 
  */
-(function init() {
-    let promptText = generateProblem();
+function answerPrompt(response) {
+    // show the notification alert
+    const notif = document.getElementById("notification");
+    notif.style.display = "";
 
-    let state = "ANSWERING_PROMPT";
+    // if the code syntax is correct
+    if (checkCode(promptText)) {
+        if (response == "correct") {
+            // give the user feedback that they're right
+            notif.innerHTML = "That's right!";
+            notif.className = "success";
 
-    document.getElementById("correct").onclick = () => {
-        answerPrompt(promptText, "correct");
+            // generate a new problem
+            promptText = generateProblem();
+            setPrompt(promptText);
+        }
+        else {
+            // give the user feedback that they're wrong
+            notif.innerHTML = "That's wrong.";
+            notif.className = "failure";
+        }
     }
-    
-    document.getElementById("incorrect").onclick = () => {
-        answerPrompt(promptText, "incorrect");
+    // if the problem syntax is incorrect
+    else {
+        if (response == "correct") {
+            // give the user feedback that they're wrong
+            notif.innerHTML = "That's wrong.";
+            notif.className = "failure";
+        }
+        else {
+            // give the user feedback that they're right
+            notif.innerHTML = "That's right!";
+            notif.className = "success";
+
+            // show the editor to allow the user to correct the syntax
+            // TODO should the editor auto-populate or does that take away typing practice?
+            document.getElementById("makeCorrections").style.display = "";
+            editor.refresh();
+        }
     }
 
-    // setExample(promptText);
-    setPromptCode(promptText);
-})();
+    // hide the notification alert after 1.5 seconds
+    setTimeout(() => notif.style.display = "none", 1500);
+}
+
+/**
+ * Correct the syntax of the prompt
+ */
+function correctPrompt() {
+    // show the notification alert
+    const notif = document.getElementById("notification");
+    notif.style.display = "";
+
+    // if the user types in syntatically correct code
+    // TODO this is just checks if it is syntactically correct, not that it is the right code
+    if (checkCode(editor.getValue())) {
+        // give the user feedback that they're right
+        notif.innerHTML = "That's right!";
+        notif.className = "success";
+
+        // hide the make corrections div since we're done correcting
+        document.getElementById("makeCorrections").style.display = "none";
+
+        // generate a new problem
+        promptText = generateProblem();
+        setPrompt(promptText);
+    }
+    else {
+        // give the user feedback that they're wrong
+        notif.innerHTML = "That's wrong.";
+        notif.className = "failure";
+    }
+
+    // hide the notification alert after 1.5 seconds
+    setTimeout(() => notif.style.display = "none", 1500);
+}
+
+// bind onclick functions to the response buttons
+document.getElementById("correct").onclick = () => answerPrompt("correct");
+document.getElementById("incorrect").onclick = () => answerPrompt("incorrect");
+document.getElementById("submit").onclick = () => correctPrompt();

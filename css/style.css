@@ -24,6 +24,43 @@ button:hover {
     border-color: #adadad;
 }
 
+#correct {
+    background-color: #28A745;
+    border-color: #28A745;
+    color: white;
+}
+
+#incorrect {
+    background-color: #DC3545;
+    border-color: #DC3545;
+    color: white;
+}
+
+#submit {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+#notification {
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+#notification.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+#notification.failure {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
 .container {
     padding-right: 2rem;
     padding-left: 2rem;
@@ -33,4 +70,5 @@ button:hover {
 
 #editor {
     margin-top: 1rem;
+    margin-bottom: .5rem;
 }
